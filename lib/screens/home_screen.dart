@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_plazit/core/text_style.dart';
+import 'package:flutter_application_plazit/providers/recipes_provider.dart';
 import 'package:flutter_application_plazit/screens/recipe_detail.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final recipesProvider = Provider.of<RecipesProvider>(context, listen: false);
+    recipesProvider.fetchRecipes();
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _recipesCard(context),
-          _recipesCard(context),
-          _recipesCard(context),
-          _recipesCard(context),
-          _recipesCard(context),
-        ],
+      body: Consumer<RecipesProvider>(
+        builder: (context, provider, child) {
+          if(provider.isLoading){
+            return const Center(child: CircularProgressIndicator());
+          }
+          else if (provider.recipes.isEmpty) {
+            return const Center(child: Text('No se encuentran recetas'));
+          } else {
+            return ListView.builder(
+              itemCount: provider.recipes.length,
+              itemBuilder: (context, index) {
+                return _recipesCard(context, provider.recipes[index]);
+              },
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
@@ -28,7 +40,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-Widget _recipesCard(BuildContext context) {
+Widget _recipesCard(BuildContext context, recipe) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
@@ -62,10 +74,7 @@ Widget _recipesCard(BuildContext context) {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    "https://static.platzi.com/media/uploads/flutter_lasana_b894f1aee1.jpg",
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(recipe.imageLink, fit: BoxFit.cover),
                 ),
               ),
               SizedBox(width: 26.0),
@@ -73,12 +82,12 @@ Widget _recipesCard(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Lasagna", style: TextStyles.textCardRecipe),
+                  Text(recipe.name, style: TextStyles.textCardRecipe),
                   SizedBox(height: 4),
                   Container(height: 2, width: 75, color: Colors.orange),
                   SizedBox(height: 4),
                   Text(
-                    "Autor: Mario y Luigi",
+                    "Autor: ${recipe.author}",
                     style: TextStyles.textCardAuthor,
                   ),
                 ],

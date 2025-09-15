@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_plazit/providers/recipes_provider.dart';
 import 'package:flutter_application_plazit/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +13,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Libro de recetas",
-      home: const RecipeBook(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RecipesProvider())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Libro de recetas",
+        home: const RecipeBook(),
+      ),
     );
   }
 }
