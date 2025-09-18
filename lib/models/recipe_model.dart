@@ -1,16 +1,16 @@
 class Recipe {
   String? name;
   String? author;
-  String? imageLink;
+  String? image_link;
   List<String>? recipeSteps;
 
-  Recipe({this.name, this.author, this.imageLink, this.recipeSteps});
+  Recipe({this.name, this.author, this.image_link, this.recipeSteps});
 
   factory Recipe.fromJSON(Map<String, dynamic> json) {
     return Recipe(
       name: json['name'],
       author: json['author'],
-      imageLink: json['imageLink'],
+      image_link: json['image_link'],
       recipeSteps: List<String>.from(json['recipe'] ?? []),
     );
   }
@@ -19,7 +19,7 @@ class Recipe {
     return {
       'name': name,
       'author': author,
-      'imageLink': imageLink,
+      'image_link': image_link,
       'recipe': recipeSteps,
     };
   }

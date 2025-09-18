@@ -4,20 +4,31 @@ import 'package:flutter_application_plazit/providers/recipes_provider.dart';
 import 'package:flutter_application_plazit/screens/recipe_detail.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // ✅ Cargar recetas después de que se monte el widget
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RecipesProvider>(context, listen: false).fetchRecipes();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final recipesProvider = Provider.of<RecipesProvider>(context, listen: false);
-    recipesProvider.fetchRecipes();
     return Scaffold(
       body: Consumer<RecipesProvider>(
         builder: (context, provider, child) {
-          if(provider.isLoading){
+          if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
-          }
-          else if (provider.recipes.isEmpty) {
+          } else if (provider.recipes.isEmpty) {
             return const Center(child: Text('No se encuentran recetas'));
           } else {
             return ListView.builder(
@@ -31,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
         onPressed: () {
           _showBottom(context);
         },
@@ -39,6 +50,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
 
 Widget _recipesCard(BuildContext context, recipe) {
   return GestureDetector(
@@ -74,7 +86,7 @@ Widget _recipesCard(BuildContext context, recipe) {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(recipe.imageLink, fit: BoxFit.cover),
+                  child: Image.network(recipe.image_link, fit: BoxFit.cover),
                 ),
               ),
               SizedBox(width: 26.0),
