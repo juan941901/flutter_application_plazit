@@ -32,8 +32,6 @@ MultiProvider(
 ```
 Las siguientes son caracteristicas de provider
 
-# 📑 Chuleta Provider en Flutter
-
 | Widget / Método          | ¿Qué hace?                                                                 | ¿Cuándo usarlo?                                                | Ejemplo rápido |
 |---------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------|----------------|
 | **Provider**              | Inyecta un objeto (ej. clase, valor, servicio) en el árbol de widgets.     | Cuando quieres exponer un objeto a los hijos.                  | ```Provider(create: (_) => MiServicio(), child: MyApp())``` |
