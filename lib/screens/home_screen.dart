@@ -58,14 +58,7 @@ Widget _recipesCard(BuildContext context, recipe) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RecipeDetail(
-            recipeAuthor: "Mario y Luigi",
-            recipeImage:
-                "https://static.platzi.com/media/uploads/flutter_lasana_b894f1aee1.jpg",
-            recipeInstructions:
-                "1. Precalienta el horno a 375°F (190°C).\n2. En una sartén grande, cocina la carne molida hasta que esté dorada. Agrega la cebolla y el ajo, y cocina hasta que estén tiernos. Añade la salsa de tomate, el puré de tomate, el agua, el azúcar, la albahaca, el orégano, la sal y la pimienta. Cocina a fuego lento durante 30 minutos.\n3. En un bol grande, mezcla el queso ricotta, el huevo, el perejil y 1 taza de queso mozzarella.\n4. En una fuente para horno, extiende una capa delgada de la mezcla de carne en el fondo. Coloca una capa de láminas de lasaña encima. Añade una capa de la mezcla de queso y luego otra capa de carne. Repite las capas hasta que se terminen los ingredientes, terminando con una capa de carne.\n5. Cubre con el resto del queso mozzarella y el queso parmesano.\n6. Cubre con papel aluminio y hornea durante 25 minutos. Luego, retira el papel aluminio y hornea por otros 25 minutos o hasta que el queso esté dorado y burbujeante.\n7. Deja reposar durante 15 minutos antes de servir.",
-            recipeName: "Lasagna",
-          ),
+          builder: (context) => RecipeDetail(recipesData: recipe),
         ),
       );
     },
@@ -86,7 +79,7 @@ Widget _recipesCard(BuildContext context, recipe) {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(recipe.image_link, fit: BoxFit.cover),
+                  child: Image.network(recipe.imageLink, fit: BoxFit.cover),
                 ),
               ),
               SizedBox(width: 26.0),

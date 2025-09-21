@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_plazit/providers/recipes_provider.dart';
+import 'package:flutter_application_plazit/screens/favorite_recipe.dart';
 import 'package:flutter_application_plazit/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +55,7 @@ class RecipeBook extends StatelessWidget {
         body: TabBarView(
           children: [
             HomeScreen(),
-            Center(child: Text("Favoritos")),
+            FavoriteRecipe(),
             Center(child: Text("Ajustes")),
           ],
         ),

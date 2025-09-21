@@ -1,27 +1,35 @@
 class Recipe {
-  String? name;
-  String? author;
-  String? image_link;
-  List<String>? recipeSteps;
+  int id;
+  String name;
+  String author;
+  String imageLink;
+  List<String> recipeSteps;
 
-  Recipe({this.name, this.author, this.image_link, this.recipeSteps});
+  Recipe({required this.name, required this.author, required this.imageLink,required this.recipeSteps, required this.id});
 
   factory Recipe.fromJSON(Map<String, dynamic> json) {
     return Recipe(
+      id: json['id'] as int,
       name: json['name'],
       author: json['author'],
-      image_link: json['image_link'],
+      imageLink: json['image_link'],
       recipeSteps: List<String>.from(json['recipe'] ?? []),
     );
   }
 
   Map<String, dynamic> toJSON() {
     return {
+      'id' : id,
       'name': name,
       'author': author,
-      'image_link': image_link,
+      'image_link': imageLink,
       'recipe': recipeSteps,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Recipe{id : $id, name: $name, author: $author, image_link: $imageLink, recipe: $recipeSteps}';
   }
   
 }
