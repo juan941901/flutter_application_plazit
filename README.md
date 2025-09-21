@@ -44,3 +44,42 @@ Las siguientes son caracteristicas de provider
 | **context.watch<T>()**    | Obtiene el provider y escucha cambios.                                     | Cuando quieres que se reconstruya el widget al cambiar estado. | ```final user = context.watch<AuthProvider>().user;``` |
 | **context.select<T, R>()**| Escucha **solo un campo** del provider, se reconstruye si ese campo cambia.| Para optimizar rendimiento cuando solo te importa un valor.    | ```final username = context.select<AuthProvider, String>((auth) => auth.userName);``` |
 
+### Implementación de animaciones
+
+Para agregar animaciones a nuestro proyecto agregamos la clase `SingleTickerProviderStateMixin` haciendo uso de `with`, con esto nos permite heredar las propiedades o funciones que hay dentro de ella sin extender de la clase.
+
+para ello haremos uso de `AnimationController` y  `Animation`, lo cual nos permite controlar la animación que realizaremos.
+
+esto lo haremos agregandolo en nuestro `initState`.
+
+```dart
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: 1.5).animate(
+          CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+        )..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            _controller.reverse();
+          }
+        });
+  }
+```
+
+y finalizaremos cerrando el proceso con `dispose`, para que libere la información de la memoria.
+
+```dart
+@override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+```
